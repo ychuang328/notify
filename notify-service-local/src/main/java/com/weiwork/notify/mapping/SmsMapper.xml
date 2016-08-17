@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.weiwork.notify.mapper.ISmsMapper">
+
+<!-- 所有字段 -->
+	<sql id="Base_Column_List">
+	id  
+	,type 
+	,content 
+	,reply 
+	,smsNo 
+	,mobile 
+	,status 
+	,cTime
+	</sql>
+	
+<!-- 字段映射 -->
+	<resultMap id="BaseResultMap" type="com.weiwork.notify.model.Sms">
+	    <id column="id" property="id" jdbcType="BIGINT" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+		<result column="reply" jdbcType="VARCHAR" property="reply" />
+		<result column="smsNo" jdbcType="BIGINT" property="smsNo" />
+		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="cTime" jdbcType="VARCHAR" property="cTime" />
+	</resultMap>
+
+<!-- 主键查询 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+		select  <include refid="Base_Column_List" />
+		from sms
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+<!-- 删除 -->	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sms where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+<!-- 通用查询条件 -->
+	<sql id="sql_of_where">
+		WHERE 1=1 
+		<if test="bParam != null" >
+			<if test="bParam.id != null"> AND id = #{bParam.id,jdbcType=BIGINT} </if>
+			<if test="bParam.type != null"> AND type = #{bParam.type,jdbcType=INTEGER} </if>
+			<if test="bParam.content != null"> AND content = #{bParam.content,jdbcType=VARCHAR} </if>
+			<if test="bParam.reply != null"> AND reply = #{bParam.reply,jdbcType=VARCHAR} </if>
+			<if test="bParam.smsNo != null"> AND smsNo = #{bParam.smsNo,jdbcType=VARCHAR} </if>
+			<if test="bParam.mobile != null"> AND mobile = #{bParam.mobile,jdbcType=VARCHAR} </if>
+			<if test="bParam.status != null"> AND status = #{bParam.status,jdbcType=INTEGER} </if>
+			<if test="bParam.cTime != null"> AND cTime = #{bParam.cTime,jdbcType=VARCHAR} </if>
+		</if>
+	</sql>
+	
+<!-- 通用分页查询 -->
+	<select id="queryByParamMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from sms
+		<include refid="sql_of_where" />
+		<if test="pParam != null">
+			<if test="pParam.orderByClause != null" > order by ${pParam.orderByClause} </if>
+			<if test="pParam.startIndex != null and pParam.pageSize != null" >
+			  limit #{pParam.startIndex} , #{pParam.pageSize}
+			</if>
+		</if>
+	</select>
+	
+<!-- 通用分页查询记录总数 -->
+	<select id="countByParamMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(id) from sms
+		<include refid="sql_of_where" />
+	</select>
+	
+<!-- 插入 -->
+	<insert id="insert" parameterType="com.weiwork.notify.model.Sms">
+		insert into sms 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				id, 
+			<if test="type != null">
+			    type,
+			</if>
+			<if test="mobile != null">
+			    mobile,
+			</if>
+			<if test="reply != null">
+			    reply,
+			</if>
+			<if test="content != null">
+			    content,
+			</if>
+			<if test="smsNo != null">
+			    smsNo,
+			</if>
+			<if test="status != null">
+			    status,
+			</if>
+			<if test="cTime != null">
+			    cTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			     #{id,jdbcType=BIGINT}, 
+			<if test="type != null">
+			    #{type,jdbcType=INTEGER},
+			</if>
+			<if test="mobile != null">
+			    #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="reply != null">
+			    #{reply,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+			    #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="smsNo != null">
+			    #{smsNo,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+			    #{status,jdbcType=INTEGER},
+			</if>
+			<if test="cTime != null">
+			    #{cTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+<!-- 批量插入 请根据业务修改默认值-->	
+    <insert id="insertBatch"  parameterType="java.util.List">
+		insert into sms 
+		(id  
+		,type 
+		,mobile 
+		,reply 
+		,content 
+		,smsNo 
+		,status 
+		,cTime
+		) 
+		values
+		<foreach collection="list" item="item" separator=",">
+		(#{item.id,jdbcType=BIGINT}  
+			<choose>  
+				<when test="item.type != null">,#{item.type ,jdbcType=INTEGER}</when>
+				<otherwise>,''</otherwise>
+			</choose>
+			<choose>  
+				<when test="item.mobile != null">,#{item.mobile ,jdbcType=VARCHAR}</when>
+				<otherwise>,''</otherwise>
+			</choose>
+			<choose>  
+				<when test="item.reply != null">,#{item.reply ,jdbcType=VARCHAR}</when>
+				<otherwise>,''</otherwise>
+			</choose>
+			<choose>  
+				<when test="item.content != null">,#{item.content ,jdbcType=VARCHAR}</when>
+				<otherwise>,0</otherwise>
+			</choose>
+			<choose>  
+				<when test="item.smsNo != null">,#{item.smsNo ,jdbcType=VARCHAR}</when>
+				<otherwise>,''</otherwise>
+			</choose>
+			<choose>  
+				<when test="item.status != null">,#{item.status ,jdbcType=INTEGER}</when>
+				<otherwise>,''</otherwise>
+			</choose>
+			<choose>  
+				<when test="item.cTime != null">,#{item.cTime ,jdbcType=VARCHAR}</when>
+				<otherwise>,''</otherwise>
+			</choose> 
+		)
+		</foreach>
+	</insert>
+
+<!-- 更新 -->
+	<update id="updateByPrimaryKey" parameterType="com.weiwork.notify.model.Sms">
+		update sms
+		<set>
+			<if test="type != null" >
+             type = #{type,jdbcType=INTEGER},
+            </if>
+			<if test="mobile != null" >
+             mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+			<if test="reply != null" >
+             reply = #{reply,jdbcType=VARCHAR},
+            </if>
+			<if test="content != null" >
+             userId = #{content,jdbcType=VARCHAR},
+            </if>
+			<if test="smsNo != null" >
+             smsNo = #{smsNo,jdbcType=VARCHAR},
+            </if>
+			<if test="status != null" >
+             status = #{status,jdbcType=INTEGER},
+            </if>
+			<if test="cTime != null" >
+             cTime = #{cTime,jdbcType=VARCHAR},
+            </if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+<!-- 批量更新 -->
+	<update id="updateBatchByPrimaryKey"  parameterType="java.util.List">
+	     <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+                update sms 
+                <set>
+                  <if test="item.type != null" >
+                    type = #{item.type,jdbcType=INTEGER},
+                  </if>
+                  <if test="item.mobile != null" >
+                    mobile = #{item.mobile,jdbcType=VARCHAR},
+                  </if>
+                  <if test="item.reply != null" >
+                    reply = #{item.reply,jdbcType=VARCHAR},
+                  </if>
+                  <if test="item.content != null" >
+                    content = #{item.content,jdbcType=VARCHAR},
+                  </if>
+                  <if test="item.smsNo != null" >
+                    smsNo = #{item.smsNo,jdbcType=VARCHAR},
+                  </if>
+                  <if test="item.status != null" >
+                    status = #{item.status,jdbcType=INTEGER},
+                  </if>
+                  <if test="item.cTime != null" >
+                    cTime = #{item.cTime,jdbcType=VARCHAR},
+                  </if>
+                </set>
+                where id = #{item.id,jdbcType=BIGINT}
+         </foreach>
+	</update>
+</mapper>
