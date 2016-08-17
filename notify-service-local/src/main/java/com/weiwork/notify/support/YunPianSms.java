@@ -9,8 +9,8 @@ import cn.vko.common.utils.http.HttpUtil;
 /**
  * 云片网络-发送短信接口
  * 
- * @author	丁辰叶
- * @date	2015-9-13
+ * @author	杨闯
+ * @date	2016-9-13
  */
 public class YunPianSms {
 

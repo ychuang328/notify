@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * @Description:service接口.短信消息
- * @author: 微课网
+ * @author: 微作
  */
 public interface ISmsServiceRemote {
 	

@@ -21,7 +21,7 @@ import com.weiwork.notify.support.YunPianSms;
 
 /**
  * service接口实现.短信消息
- * @author 微课网
+ * @author 微作
  */
 @Service
 public class SmsServiceImpl extends BaseServiceImpl<Sms,ISmsMapper> implements ISmsService, ISmsServiceRemote {

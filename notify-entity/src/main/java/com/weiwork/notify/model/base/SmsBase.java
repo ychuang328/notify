@@ -3,7 +3,7 @@ package com.weiwork.notify.model.base;
 import cn.vko.common.base.BaseEntity;
 
 /**
- * vo.短信消息
+ * 短信消息
  * @author 微作
  */
  @SuppressWarnings("serial")

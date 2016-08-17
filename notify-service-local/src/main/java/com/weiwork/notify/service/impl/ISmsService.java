@@ -9,7 +9,7 @@ import com.weiwork.notify.model.Sms;
 
 /**
  * @Description:service接口.短信消息
- * @author: 微课网
+ * @author: 微作
  */
 public interface ISmsService  extends BaseService<Sms,ISmsMapper>{
 	

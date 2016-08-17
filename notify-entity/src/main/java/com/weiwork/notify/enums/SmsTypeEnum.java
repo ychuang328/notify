@@ -11,7 +11,7 @@ package com.weiwork.notify.enums;
  * 
  * <p>
  * @author   ychuang328
- * @Date	 2015-11-17 	 
+ * @Date	 2016-11-17 	 
  */
 public enum SmsTypeEnum {
 	SEND(0, "发送"), REC(1, "接收");
